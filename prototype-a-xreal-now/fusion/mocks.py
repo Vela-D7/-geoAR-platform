@@ -69,6 +69,20 @@ def poor_lighting_fallback() -> Scenario:
     return Scenario("poor_lighting_fallback", "Visual degrades; anchor fallback + rescan flag", ticks, lighting="dusk")
 
 
+def dusk_never_locks() -> Scenario:
+    """Return visit at dusk: recogniser hovers just under the cutoff for the whole
+    session; the anchor persisted from an earlier visit carries the render.
+    This is the exact pattern self-learning v0's LOOSEN rule watches for."""
+    ticks = (
+        _t(gps=5.0, vis=0.45, anchor=True),
+        _t(gps=5.0, vis=0.61, anchor=True),
+        _t(gps=4.5, vis=0.67, anchor=True),   # near miss: best it ever gets
+        _t(gps=4.5, vis=0.65, anchor=True),
+        _t(gps=5.0, vis=0.62, anchor=True),
+    )
+    return Scenario("dusk_never_locks", "Confidence never reaches cutoff; persisted anchor carries render", ticks, lighting="dusk")
+
+
 def tracking_loss_relocalization() -> Scenario:
     """Spec: 'tracking lost mid-session -> attempt Spatial Anchor re-localization'."""
     ticks = (
@@ -104,6 +118,7 @@ ALL_SCENARIOS = (
     clean_fused_lock,
     urban_canyon,
     poor_lighting_fallback,
+    dusk_never_locks,
     tracking_loss_relocalization,
     no_target_cell,
     gps_dead_no_anchor,

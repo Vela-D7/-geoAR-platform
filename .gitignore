@@ -7,3 +7,5 @@ node_modules/
 *.sqlite3
 # Generated LOD binaries stay out of git; manifests and reports are committed as evidence
 prototype-a-xreal-now/output/*.glb
+shared-infrastructure/backend/storage/
+shared-infrastructure/backend/*.db
