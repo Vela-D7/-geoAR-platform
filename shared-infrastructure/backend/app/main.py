@@ -12,7 +12,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from . import models  # noqa: F401 — register tables before create_all
 from .database import Base, engine
-from .routers import field_tests, sites, thresholds, uploads
+from .routers import deploys, field_tests, jobs, learning, sites, thresholds, uploads
 
 Base.metadata.create_all(bind=engine)
 
@@ -30,6 +30,9 @@ app.include_router(sites.router)
 app.include_router(field_tests.router)
 app.include_router(thresholds.router)
 app.include_router(uploads.router)
+app.include_router(jobs.router)
+app.include_router(deploys.router)
+app.include_router(learning.router)
 
 
 @app.get("/api/health")

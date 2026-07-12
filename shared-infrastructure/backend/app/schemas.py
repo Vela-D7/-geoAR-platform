@@ -68,3 +68,4 @@ class UploadValidation(BaseModel):
     size_bytes: int
     accepted: bool
     checks: list[dict]
+    job_id: int | None = None  # processing job auto-enqueued on acceptance

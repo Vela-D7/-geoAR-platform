@@ -73,6 +73,58 @@ class FieldTestSession(Base):
     site: Mapped[Site] = relationship(back_populates="sessions")
 
 
+class ProcessingJob(Base):
+    """One optimisation run for an uploaded scan. Steps are recorded as an
+    ordered JSON list [{name, status, detail}] the web Processing page polls.
+    On failure the job retries once with alternative (more conservative)
+    pipeline settings before reporting a clear error + capture recommendation
+    (spec: AI Orchestration Logic, reconstruction failure branch)."""
+
+    __tablename__ = "processing_jobs"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    site_id: Mapped[str] = mapped_column(ForeignKey("sites.id"), index=True)
+    scan_path: Mapped[str] = mapped_column(String(500))
+    status: Mapped[str] = mapped_column(String(16), default="queued")  # queued|running|succeeded|failed
+    attempt: Mapped[int] = mapped_column(Integer, default=1)
+    settings_profile: Mapped[str] = mapped_column(String(32), default="standard")
+    steps: Mapped[list] = mapped_column(JSON, default=list)
+    error: Mapped[str | None] = mapped_column(Text, nullable=True)
+    recommendation: Mapped[str | None] = mapped_column(Text, nullable=True)
+    output_manifest: Mapped[dict | None] = mapped_column(JSON, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow, onupdate=utcnow)
+
+
+class Deploy(Base):
+    """A deploy = versioned bundle (LOD GLBs + manifest + target placeholder)
+    staged for the device build. Deploying to a site with a live anchor
+    requires explicit confirmation (spec security check)."""
+
+    __tablename__ = "deploys"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    site_id: Mapped[str] = mapped_column(ForeignKey("sites.id"), index=True)
+    bundle_path: Mapped[str] = mapped_column(String(500))
+    manifest: Mapped[dict] = mapped_column(JSON)
+    status: Mapped[str] = mapped_column(String(16), default="staged")  # staged|delivered
+    triggered_by: Mapped[str] = mapped_column(String(64), default="operator")
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+
+class LearningReport(Base):
+    """One self-learning v0 cycle result (action + before/after replay), stored
+    so the web panel shows history without reading files off the worker."""
+
+    __tablename__ = "learning_reports"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    site_id: Mapped[str] = mapped_column(ForeignKey("sites.id"), index=True)
+    action: Mapped[str] = mapped_column(String(16))  # loosen|tighten|hold
+    report: Mapped[dict] = mapped_column(JSON)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+
 class ThresholdVersion(Base):
     """Per-site fusion thresholds. Append-only: every change (manual or from the
     self-learning loop) is a new version so regressions can be rolled back."""

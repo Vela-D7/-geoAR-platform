@@ -25,21 +25,9 @@ from sqlalchemy import select
 from app import models
 from app.database import SessionLocal
 
-from .v0 import WINDOW_N, Adjustment, evaluate
+from .v0 import WINDOW_N, Adjustment, evaluate, replay_outcomes
 
 REPORTS_DIR = Path(__file__).parent / "reports"
-
-
-def replay_outcomes(sessions: list[dict], cutoff: float) -> dict:
-    """Would each logged session have achieved a visual lock under this cutoff?
-    Pure replay of the fusion visual rule over already-logged confidences."""
-    visual_locks = sum(1 for s in sessions if s["visual_confidence"] >= cutoff)
-    fallbacks = sum(
-        1 for s in sessions
-        if s["visual_confidence"] < cutoff and s["outcome"] in ("degraded", "success")
-    )
-    no_render = len(sessions) - visual_locks - fallbacks
-    return {"visual_locks": visual_locks, "anchor_fallbacks": fallbacks, "no_usable_render": no_render}
 
 
 def run(site_id: str = "oystermouth-chapel", write: bool = True) -> Adjustment:

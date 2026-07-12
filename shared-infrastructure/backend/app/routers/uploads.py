@@ -73,6 +73,7 @@ async def upload_scan(site_id: str, file: UploadFile, db: Session = Depends(get_
             tmp.write(chunk)
         tmp_path = Path(tmp.name)
 
+    job_id = None
     try:
         checks = _validate_geometry(tmp_path)
         accepted = all(c["passed"] for c in checks)
@@ -83,12 +84,23 @@ async def upload_scan(site_id: str, file: UploadFile, db: Session = Depends(get_
             shutil.move(str(tmp_path), final)
             site.model_asset_path = str(final)
             site.recognition_target_status = "building"
+
+            job = models.ProcessingJob(site_id=site_id, scan_path=str(final))
+            db.add(job)
             db.commit()
+            db.refresh(job)
+            job_id = job.id
+
+            from ..jobs.tasks import process_scan  # deferred: pulls in trimesh/celery
+
+            process_scan.delay(job.id)
     finally:
         if tmp_path.exists():
             tmp_path.unlink()
 
-    return UploadValidation(filename=file.filename or "upload", size_bytes=size, accepted=accepted, checks=checks)
+    return UploadValidation(
+        filename=file.filename or "upload", size_bytes=size, accepted=accepted, checks=checks, job_id=job_id
+    )
 
 
 @router.get("/model")

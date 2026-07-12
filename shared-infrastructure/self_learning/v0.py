@@ -36,6 +36,19 @@ LOOSEN_TRIGGER = 0.5   # fraction of window that must be near-miss-but-fine
 TIGHTEN_TRIGGER = 0.3  # fraction of window that must be passed-but-bad
 
 
+def replay_outcomes(sessions: list[dict], cutoff: float) -> dict:
+    """Would each logged session have achieved a visual lock under this cutoff?
+    Pure replay of the fusion visual rule over already-logged confidences —
+    used for the before/after comparison in cycle reports."""
+    visual_locks = sum(1 for s in sessions if s["visual_confidence"] >= cutoff)
+    fallbacks = sum(
+        1 for s in sessions
+        if s["visual_confidence"] < cutoff and s["outcome"] in ("degraded", "success")
+    )
+    no_render = len(sessions) - visual_locks - fallbacks
+    return {"visual_locks": visual_locks, "anchor_fallbacks": fallbacks, "no_usable_render": no_render}
+
+
 @dataclass
 class Adjustment:
     action: str  # "loosen" | "tighten" | "hold"

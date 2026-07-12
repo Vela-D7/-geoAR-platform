@@ -13,7 +13,7 @@ Spec: [`../docs/geoAR_shared_infrastructure.md`](../docs/geoAR_shared_infrastruc
 | `schemas/` | Canonical field-test log JSON Schema (v1) — single source of truth for device loggers, backend ingest, and the self-learning loop | working |
 | `backend/` | FastAPI: site registry, anchors (live-overwrite approval gate), field-test ingest (schema-validated), versioned thresholds, scan upload validation, model delivery | working, 14 tests |
 | `self_learning/` | v0 rule-based threshold adjuster (explicitly NOT ML) + cycle runner producing before/after reports | working, 9 tests |
-| `website/` | Next.js operator console. **Live pages:** Upload, Site registry, Site detail/3D preview (Three.js). **Placeholders (labelled "coming next"):** Deploy, Field-test monitor, Self-learning panel | builds + smoke-tested |
+| `../web-app/` | Next.js operator console. **Live pages:** Upload, Site registry, Site detail/3D preview (Three.js). **Placeholders (labelled "coming next"):** Deploy, Field-test monitor, Self-learning panel | builds + smoke-tested |
 
 ## Run the whole stack
 
@@ -30,7 +30,7 @@ cd shared-infrastructure
 python -m self_learning.run_cycle
 
 # 3. Web app
-cd shared-infrastructure/website
+cd web-app
 npm install && npm run build && npm start   # http://localhost:3000
 
 # Tests
