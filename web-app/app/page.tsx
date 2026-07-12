@@ -1,12 +1,13 @@
 import Link from "next/link";
 
 const cards = [
-  { href: "/upload", title: "Upload", desc: "LiDAR scan upload with validation (coverage, geometry, scale)", live: true },
+  { href: "/upload", title: "Upload", desc: "LiDAR scan upload with validation; auto-enqueues processing", live: true },
+  { href: "/processing", title: "Processing status", desc: "Pipeline runs with pass/fail per step and retry-with-fallback", live: true },
   { href: "/sites", title: "Site registry", desc: "Registered sites, GPS anchors, target status, last field-test result", live: true },
   { href: "/sites/oystermouth-chapel", title: "3D preview", desc: "Inspect the optimised site model in the browser (Three.js)", live: true },
-  { href: "/deploy", title: "Deploy", desc: "Push model + recognition target to the device build", live: false },
-  { href: "/monitor", title: "Field-test monitor", desc: "Logged sessions: GPS accuracy, confidence, time-to-lock, drift", live: false },
-  { href: "/learning", title: "Self-learning panel", desc: "Threshold history and before/after adjustment cycles", live: false },
+  { href: "/deploy", title: "Deploy", desc: "Stage model bundles for the device build (live-anchor approval gate)", live: true },
+  { href: "/monitor", title: "Field-test monitor", desc: "Logged sessions: GPS accuracy, confidence, time-to-lock, drift", live: true },
+  { href: "/learning", title: "Self-learning panel", desc: "Threshold history and before/after adjustment cycles (v0, rule-based)", live: true },
 ];
 
 export default function Home() {
