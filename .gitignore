@@ -9,3 +9,5 @@ node_modules/
 prototype-a-xreal-now/output/*.glb
 shared-infrastructure/backend/storage/
 shared-infrastructure/backend/*.db
+# Redis snapshot from local worker runs
+dump.rdb
