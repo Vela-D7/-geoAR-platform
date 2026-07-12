@@ -1,0 +1,32 @@
+{
+  "input": {
+    "faces": 262144,
+    "vertices": 131074
+  },
+  "lods": [
+    {
+      "tier": 0,
+      "faces": 100000,
+      "vertices": 50002,
+      "path": "output/chapel_lod0.glb"
+    },
+    {
+      "tier": 1,
+      "faces": 25000,
+      "vertices": 12502,
+      "path": "output/chapel_lod1.glb"
+    },
+    {
+      "tier": 2,
+      "faces": 5000,
+      "vertices": 2502,
+      "path": "output/chapel_lod2.glb"
+    }
+  ],
+  "texture_bake": "stub",
+  "budgets": {
+    "0": 100000,
+    "1": 25000,
+    "2": 5000
+  }
+}

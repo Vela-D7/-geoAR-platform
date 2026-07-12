@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+node_modules/
+.next/
+*.db
+*.sqlite3
+# Generated LOD binaries stay out of git; manifests and reports are committed as evidence
+prototype-a-xreal-now/output/*.glb
+shared-infrastructure/backend/storage/
+shared-infrastructure/backend/*.db
+# Redis snapshot from local worker runs
+dump.rdb
