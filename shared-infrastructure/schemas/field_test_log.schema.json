@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "geoar/field_test_log/v1",
+  "title": "GeoAR Field-Test Session Log",
+  "description": "Canonical per-session localization log. Identical schema for Prototype A (XREAL SDK) and, later, Prototype B (Android XR) so the shared self-learning loop ingests both without rework. One JSON object per session; emitted as JSONL by devices and POSTed to the shared backend.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "session_id",
+    "site_id",
+    "device_profile",
+    "started_at",
+    "ended_at",
+    "gps_accuracy_m",
+    "visual_confidence",
+    "time_to_lock_s",
+    "drift_m",
+    "lighting",
+    "outcome",
+    "source"
+  ],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "session_id": { "type": "string", "minLength": 8 },
+    "site_id": { "type": "string", "minLength": 1 },
+    "device_profile": {
+      "type": "string",
+      "enum": ["xreal_current_sdk", "android_xr_aura"],
+      "description": "Which prototype generation produced this session."
+    },
+    "started_at": { "type": "string", "format": "date-time" },
+    "ended_at": { "type": "string", "format": "date-time" },
+    "gps_accuracy_m": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Raw reported GPS accuracy radius in metres at coarse lock (or best during session)."
+    },
+    "visual_confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Best visual recognition confidence score achieved during the session."
+    },
+    "time_to_lock_s": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Seconds from session start (coarse GPS) to fine lock, or to terminal fallback state if never locked."
+    },
+    "drift_m": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Measured anchor drift over the session in metres (max observed)."
+    },
+    "lighting": {
+      "type": "string",
+      "enum": ["daylight", "overcast", "dusk", "night", "indoor", "unknown"]
+    },
+    "time_of_day_local": {
+      "type": "string",
+      "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$",
+      "description": "HH:MM local time at session start."
+    },
+    "final_state": {
+      "type": "string",
+      "enum": [
+        "FUSED_LOCK",
+        "VISUAL_ONLY",
+        "GPS_ANCHOR_FALLBACK",
+        "RELOCALIZING",
+        "NO_CONTENT",
+        "ACQUIRING"
+      ],
+      "description": "Terminal state of the fusion state machine for this session."
+    },
+    "outcome": {
+      "type": "string",
+      "enum": ["success", "degraded", "failure"],
+      "description": "success = content rendered aligned within tolerance; degraded = rendered via fallback; failure = no usable render."
+    },
+    "relock_attempts": { "type": "integer", "minimum": 0 },
+    "flags": {
+      "type": "array",
+      "items": { "type": "string", "enum": ["rescan_recommended", "tracking_lost", "thermal_throttle", "low_battery"] },
+      "uniqueItems": true
+    },
+    "source": {
+      "type": "string",
+      "enum": ["field", "synthetic", "replay"],
+      "description": "Provenance. NEVER present synthetic/replay entries as field data in any UI."
+    },
+    "notes": { "type": "string", "maxLength": 2000 }
+  },
+  "additionalProperties": false
+}

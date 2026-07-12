@@ -1,0 +1,43 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "name": "integrity",
+      "passed": true,
+      "detail": "faces=262144, finite_vertices=True"
+    },
+    {
+      "name": "scale_vs_reference",
+      "passed": true,
+      "detail": "extents=[6.03, 8.026, 10.032]m vs reference=[6.0, 8.0, 10.0]m, max_rel_err=0.503% (tolerance 5%)"
+    },
+    {
+      "name": "lod0_budget",
+      "passed": true,
+      "detail": "100000 faces vs budget 100000"
+    },
+    {
+      "name": "lod1_budget",
+      "passed": true,
+      "detail": "25000 faces vs budget 25000"
+    },
+    {
+      "name": "lod2_budget",
+      "passed": true,
+      "detail": "5000 faces vs budget 5000"
+    },
+    {
+      "name": "lod_tiers_decreasing",
+      "passed": true,
+      "detail": "face counts by tier: [100000, 25000, 5000]"
+    }
+  ],
+  "deferred_to_device": [
+    "scan_coverage_overlap",
+    "point_density",
+    "capture_drift",
+    "draw_calls",
+    "thermal",
+    "battery"
+  ]
+}

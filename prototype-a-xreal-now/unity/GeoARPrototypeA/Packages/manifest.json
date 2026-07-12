@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "com.unity.cloud.gltfast": "6.0.1",
+    "com.unity.xr.management": "4.4.0",
+    "com.unity.xr.openxr": "1.9.1",
+    "com.unity.textmeshpro": "3.0.6"
+  },
+  "_comment": [
+    "Unity 2022.3 LTS project. The XREAL SDK is NOT a UPM registry package:",
+    "import it per SceneSetup.md (vendor .unitypackage/tarball), then add",
+    "XREAL_SDK_PRESENT to Project Settings > Player > Scripting Define Symbols.",
+    "Package versions [Needs verification] against the pinned 2022.3.x editor",
+    "revision on the dev machine before the device build."
+  ]
+}
