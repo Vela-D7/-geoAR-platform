@@ -21,21 +21,25 @@ Reconciled against work completed on 11–12 July (commits `f975207`, `5445712`,
 - [x] 8. Field-test logging pipeline — schema v1, ingest validated, synthetic-tagged
 - [x] 9. Self-learning v0 — rule-based, one real LOOSEN cycle demonstrated, 9 tests.
        **This session: exposed via API for the web panel**
-- [ ] 10. Web app: full 7-page spec
-  - [x] Upload (validation results)
+- [x] 10. Web app: full 7-page spec — all pages live, production build passes,
+       smoke-tested against the seeded backend, screenshot-reviewed
+  - [x] Upload (validation results; auto-enqueues processing)
   - [x] Site registry
   - [x] Site detail / 3D preview (Three.js)
-  - [ ] Processing status (live per-step view over the new job pipeline)
-  - [ ] Deploy (trigger + history + live-anchor approval gate surfaced)
-  - [ ] Field-test monitor (sessions table + provenance filter + trend chart)
-  - [ ] Self-learning panel (threshold history, before/after, run-cycle button)
-- [ ] 11. Prototype B: architecture docs — done (diagrams, VPS comparison, migration
-       plan); **partial Unity/Android XR scaffold now in scope this session**
-- [ ] 12. Test suite — extend to jobs/deploy/learning endpoints (54 passing now)
-- [ ] 13. Deployment — docker-compose (postgres + redis + api + worker + web)
-       [Needs verification: no Docker daemon in this container → compose files
-       validated by config-parse only]
-- [ ] 14. Documentation — refresh READMEs + STATUS.md to match this session
+  - [x] Processing status (per-step badges, self-cancelling poll, retry surfaced)
+  - [x] Deploy (trigger + history + live-anchor approval gate surfaced as confirm step)
+  - [x] Field-test monitor (table + provenance filter + validated trend charts)
+  - [x] Self-learning panel (threshold history, before/after replay, run-cycle button)
+- [x] 11. Prototype B: architecture docs + partial scaffold (IGeospatialLocalizer
+       seam, ArCoreAnchorProvider stub behind ANDROID_XR_PRESENT, VPS client stub
+       with server-side-credential posture; package versions [Needs verification])
+- [x] 12. Test suite — 63 passing (31 Prototype A · 23 backend · 9 self-learning)
+- [x] 13. Deployment — docker-compose (postgres + redis + api + worker + web) +
+       Dockerfiles; `docker compose config` validates. Full `up --build`
+       **[Needs verification]**: this container's network policy blocks Docker Hub
+       pulls (CONNECT 403 to production.cloudfront.docker.com) — run on the dev
+       machine or allow docker domains in the environment network policy
+- [x] 14. Documentation — root README rewritten; STATUS.md refreshed
 
 ## Explicitly out of MVP
 Marketplace, multi-user sync, payments, advanced analytics, any claim that

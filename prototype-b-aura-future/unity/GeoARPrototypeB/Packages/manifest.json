@@ -1,0 +1,13 @@
+{
+  "dependencies": {
+    "com.unity.xr.arfoundation": "6.0.0",
+    "com.unity.xr.arcore": "6.0.0",
+    "com.unity.xr.management": "4.4.0"
+  },
+  "_comment": [
+    "ALL versions [Needs verification]: Android XR / XREAL Aura tooling is not",
+    "public yet. These are placeholders at current AR Foundation major version;",
+    "pin against the real dev-kit toolchain before claiming the project compiles.",
+    "Define ANDROID_XR_PRESENT only once the real SDK is imported."
+  ]
+}

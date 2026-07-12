@@ -11,7 +11,7 @@ Spec: [`../docs/geoAR_shared_infrastructure.md`](../docs/geoAR_shared_infrastruc
 | Path | What it is | Status |
 |---|---|---|
 | `schemas/` | Canonical field-test log JSON Schema (v1) — single source of truth for device loggers, backend ingest, and the self-learning loop | working |
-| `backend/` | FastAPI: site registry, anchors (live-overwrite approval gate), field-test ingest (schema-validated), versioned thresholds, scan upload validation, model delivery | working, 14 tests |
+| `backend/` | FastAPI: site registry, anchors (live-overwrite approval gate), field-test ingest (schema-validated), versioned thresholds, scan upload validation, model delivery | working, 23 tests (incl. jobs/deploys/learning) |
 | `self_learning/` | v0 rule-based threshold adjuster (explicitly NOT ML) + cycle runner producing before/after reports | working, 9 tests |
 | `../web-app/` | Next.js operator console. **Live pages:** Upload, Site registry, Site detail/3D preview (Three.js). **Placeholders (labelled "coming next"):** Deploy, Field-test monitor, Self-learning panel | builds + smoke-tested |
 
